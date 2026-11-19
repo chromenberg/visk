@@ -1,0 +1,20 @@
+client
+	intents
+		Guilds
+		MessageCreate
+	end
+end
+
+on message_create
+	event.reply("Hello")
+end
+
+command ping
+	data
+		option user <user> required
+			id "mention"
+		end
+	end
+end
+
+login
