@@ -1,0 +1,144 @@
+{
+	kind: invalid,
+	text: 
+}
+{
+	kind: client,
+	text: client
+}
+{
+	kind: intent,
+	text: intents
+}
+{
+	kind: identifier,
+	text: Guilds
+}
+{
+	kind: identifier,
+	text: MessageCreate
+}
+{
+	kind: end,
+	text: end
+}
+{
+	kind: end,
+	text: end
+}
+{
+	kind: on,
+	text: on
+}
+{
+	kind: identifier,
+	text: message_create
+}
+{
+	kind: identifier,
+	text: event
+}
+{
+	kind: period,
+	text: .
+}
+{
+	kind: identifier,
+	text: reply
+}
+{
+	kind: open_paren,
+	text: (
+}
+{
+	kind: quote,
+	text: "
+}
+{
+	kind: identifier,
+	text: Hello
+}
+{
+	kind: quote,
+	text: "
+}
+{
+	kind: close_paren,
+	text: )
+}
+{
+	kind: end,
+	text: end
+}
+{
+	kind: command,
+	text: command
+}
+{
+	kind: identifier,
+	text: ping
+}
+{
+	kind: data,
+	text: data
+}
+{
+	kind: option,
+	text: option
+}
+{
+	kind: identifier,
+	text: user
+}
+{
+	kind: lt,
+	text: <
+}
+{
+	kind: identifier,
+	text: user
+}
+{
+	kind: gt,
+	text: >
+}
+{
+	kind: required,
+	text: required
+}
+{
+	kind: identifier,
+	text: id
+}
+{
+	kind: quote,
+	text: "
+}
+{
+	kind: identifier,
+	text: mention
+}
+{
+	kind: quote,
+	text: "
+}
+{
+	kind: end,
+	text: end
+}
+{
+	kind: end,
+	text: end
+}
+{
+	kind: end,
+	text: end
+}
+{
+	kind: login,
+	text: login
+}
+{
+	kind: eof,
+	text: 
+}
