@@ -61,8 +61,14 @@ pub struct ClientDecl {
 	Block
 }
 
-// TODO: Need a field for parameters
 pub struct SimpleFunc {
+	Block
+pub:
+	name Token
+}
+
+// TODO: Need a field for parameters
+pub struct Func {
 	Block
 	// pub:
 	// params
