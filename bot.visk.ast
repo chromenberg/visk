@@ -1,0 +1,79 @@
+rules.DataDecl{
+    Stmt: rules.Stmt{
+        start: tokenizer.Token{
+            kind: client
+            text: 'client'
+            pos: tokenizer.Pos{
+                offset: 0
+                line: 0
+                column: 1
+            }
+        }
+        end: tokenizer.Token{
+            kind: end
+            text: 'end'
+            pos: tokenizer.Pos{
+                offset: 46
+                line: 5
+                column: 1
+            }
+        }
+    }
+    inner: rules.Block{
+        start: tokenizer.Token{
+            kind: client
+            text: 'client'
+            pos: tokenizer.Pos{
+                offset: 0
+                line: 0
+                column: 1
+            }
+        }
+        end: tokenizer.Token{
+            kind: end
+            text: 'end'
+            pos: tokenizer.Pos{
+                offset: 46
+                line: 5
+                column: 1
+            }
+        }
+        inner: [BlockInner(rules.FlagBlock{
+            start: tokenizer.Token{
+                kind: intent
+                text: 'intents'
+                pos: tokenizer.Pos{
+                    offset: 8
+                    line: 1
+                    column: 2
+                }
+            }
+            end: tokenizer.Token{
+                kind: end
+                text: 'end'
+                pos: tokenizer.Pos{
+                    offset: 42
+                    line: 4
+                    column: 2
+                }
+            }
+            inner: [tokenizer.Token{
+                kind: identifier
+                text: 'Guilds'
+                pos: tokenizer.Pos{
+                    offset: 18
+                    line: 2
+                    column: 3
+                }
+            }, tokenizer.Token{
+                kind: identifier
+                text: 'MessageCreate'
+                pos: tokenizer.Pos{
+                    offset: 27
+                    line: 3
+                    column: 3
+                }
+            }]
+        })]
+    }
+}
