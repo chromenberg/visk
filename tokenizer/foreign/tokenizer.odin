@@ -148,8 +148,8 @@ is_class :: proc (t: ^Tokenizer) -> bool {
 @(export)
 peek :: proc "c" (t: ^Tokenizer) -> Token {
 	context = runtime.default_context()
-	new := t // this might still edit the other tokenizer
-	peeked := next_token(new)
+	new := t^ // this might still edit the other tokenizer
+	peeked := next_token(&new)
 	return peeked
 }
 
