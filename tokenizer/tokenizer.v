@@ -8,6 +8,7 @@ fn C.next_token(t &Tokenizer) RawToken
 fn C.peek(t &Tokenizer) RawToken
 fn C.lookahead(t &Tokenizer, amount i32) RawToken
 
+@[heap]
 pub struct Tokenizer {
 	handle voidptr
 }

@@ -8,14 +8,10 @@ fn main() {
 	data := os.read_file('bot.visk')!
 	mut tok := Tokenizer.new(data)
 	defer { tok.destroy() }
-	mut par := parser.Parser{source: tok}
+
+	mut par := parser.Parser.new(tok)
+	par.parse()
 	
-	par.step()
-	par.step()
-	par.step()
-	par.step()
-	par.step()
-	par.step()
-	par.step()
+	println(par.tree.stmts)
 
 }

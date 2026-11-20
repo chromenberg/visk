@@ -2,11 +2,12 @@ module parser
 
 import tokenizer as tok
 import rules
-import net.s3
+import ast
 
 pub struct Parser {
 pub:
 	source &tok.Tokenizer
+	tree ast.Ast
 mut:
 	// The token the parser is currently on
 	current tok.Token
@@ -15,6 +16,14 @@ mut:
 
 	// Current index of the parser
 	index int
+	errors int
+}
+
+pub fn Parser.new(t &tok.Tokenizer) Parser {
+	return Parser{
+		source: t
+		tree: ast.Ast{}
+	}
 }
 
 fn (this &Parser) expect(kind tok.TokenKind) bool {
@@ -69,7 +78,7 @@ fn (this &Parser) parse_client_decl() rules.DataDecl {
 
 	this.expect(.end)
 	this.advance()
-	this.advance()
+	// this.advance()
 
 	return rules.DataDecl{
 		start: start
@@ -121,7 +130,9 @@ fn (this &Parser) parse_statements() (?rules.AnyStmt, bool) {
 		.client {
 			return this.parse_client_decl(), this.expect(.end)
 		}
-		// .command {}
+		.command {
+			return this.parse_event(), this.expect(.end)
+		}
 		.on, .once {
 			return this.parse_event(), this.expect(.end)
 		}
@@ -158,8 +169,20 @@ fn (this &Parser) parse_event() rules.EventStmt {
 	}
 }
 
-pub fn (this &Parser) step() {
+pub fn (this &Parser) parse() {
 	
-	stmt, end := this.parse_statements()
-	println("Statement: ${stmt} | End?: ${end}")
+	for {
+		if this.current.kind == .eof { 
+			println("[Parser] End of Token Stream")
+			break 
+		}
+
+		stmt, end := this.parse_statements()
+		if stmt != none {
+			this.tree.add(stmt)
+		}
+	}
+	// println("Statement: ${stmt} | End?: ${end}")
+
+
 }
