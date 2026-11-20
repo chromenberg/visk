@@ -12,6 +12,10 @@ fn main() {
 	
 	par.step()
 	par.step()
+	par.step()
+	par.step()
+	par.step()
+	par.step()
+	par.step()
 
-	// os.write_file('./bot.visk.tokens', dat.str())!
 }

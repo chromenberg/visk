@@ -6,7 +6,7 @@ client
 end
 
 on message_create
-	event.reply("Hello")
+	event.reply(foo())
 end
 
 command ping
@@ -14,6 +14,29 @@ command ping
 		option user <user> required
 			id "mention"
 		end
+	end
+end
+
+function foo()
+	return "Hi visk"
+end
+
+enum Type = {
+	primary,
+	secondary,
+	tertiary
+}
+
+function bar(index, value)
+	return index + value
+end
+
+class Embed
+	function init(name)
+
+	end
+
+	public json()
 	end
 end
 

@@ -106,6 +106,8 @@ pub enum TokenKind {
 	apostrophe
 	backtick   // ,
 	whitespace // Needed because spaces in CSS actually mean something for some stupid reason
+	right_arrow
+	left_arrow
 	operator_end
 
 	keyword_start
@@ -118,6 +120,11 @@ pub enum TokenKind {
 	option
 	end
 	required
+	function
+	return
+	enum
+	class
+	public
 	login
 	keyword_end
 }

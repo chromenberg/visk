@@ -47,6 +47,10 @@ TOKEN_KIND :: enum c.int {
 		Apostrophe,
 		Backtick,		// ,
 		Whitespace, // Needed because spaces in CSS actually mean something for some stupid reason
+
+		Left_Arrow,
+		Right_Arrow,
+
 	Operator_End,
 
 	Keyword_Start,
@@ -59,6 +63,11 @@ TOKEN_KIND :: enum c.int {
 		Option,
 		End,
 		Required,
+		Function,
+		Return,
+		Enum,
+		Class,
+		Public,
 		Login,
 	Keyword_End,
 
@@ -111,6 +120,9 @@ TOKENS := [TOKEN_KIND.COUNT]string{
 		"'",
 		"`",
 		" ",
+
+		"->",
+		"<-",
 	"",
 
 	"",
@@ -123,6 +135,12 @@ TOKENS := [TOKEN_KIND.COUNT]string{
 		"option",
 		"end",
 		"required",
+		"function",
+		"return",
+		"enum",
+		// Maybe we could have classes?
+		"class",
+		"public",
 		"login",
 	""
 }
