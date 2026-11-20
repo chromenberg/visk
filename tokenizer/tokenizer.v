@@ -5,6 +5,8 @@ module tokenizer
 fn C.new_tokenizer(data &char) &Tokenizer
 fn C.free_tokenizer(t &Tokenizer)
 fn C.next_token(t &Tokenizer) Token
+fn C.peek(t &Tokenizer) Token
+fn C.lookahead(T &Tokenizer, amount i32) Token
 
 pub struct Tokenizer {
 	file   string
@@ -28,6 +30,14 @@ pub fn (tok &Tokenizer) next() Token {
 
 pub fn (tok &Tokenizer) destroy() {
 	C.free_tokenizer(tok)
+}
+
+pub fn (tok &Tokenizer) peek() Token {
+	return C.peek(tok)
+}
+
+pub fn (tok &Tokenizer) lookahead(amount int) Token {
+	return C.lookahead(tok, amount)
 }
 
 // fn (mut tok Tokenizer) next_token() {

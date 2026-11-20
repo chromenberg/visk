@@ -143,6 +143,29 @@ is_class :: proc (t: ^Tokenizer) -> bool {
 	return !is_letter(t.current) || !is_digit(t.current) || t.current != '_'
 }
 
+
+
+@(export)
+peek :: proc "c" (t: ^Tokenizer) -> Token {
+	context = runtime.default_context()
+	new := t // this might still edit the other tokenizer
+	peeked := next_token(new)
+	return peeked
+}
+
+@(export)
+lookahead :: proc "c" (t: ^Tokenizer, amount: c.int) -> (peeked: Token) {
+	context = runtime.default_context()
+	new := t^ // this might still edit the other tokenizer
+	// 0,1,2,3
+	// lookahead 3 tokens, 0,1,2
+	for i : c.int = 1; i <= amount; i += 1 {
+		peeked = next_token(&new)
+	}
+	return peeked
+}
+
+
 @(export)
 next_token :: proc "c" (t: ^Tokenizer) -> Token{
 	context = runtime.default_context()
