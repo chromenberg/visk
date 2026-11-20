@@ -24,12 +24,38 @@ pub:
 	pos  Pos
 }
 
+// `RawToken` mirrors the Odin `Token` struct (tokenizer/foreign/tokens.odin)
+// byte for byte. It is only used to move data across the FFI boundary.
+//
+// Keep the field order and types identical to the Odin side: V's `string` is
+// 24 bytes (`str`, `len`, `is_lit`) while Odin's `string` is 16 bytes (`data`,
+// `len`), so a `string` field here would shift every field after it, and the
+// garbage lengths that produces crash the allocator when the token is printed.
+// Use a raw pointer + length instead, and build the V string in `to_token()`.
+struct RawToken {
+	kind     TokenKind
+	text     &u8 // borrowed view into the tokenizer's source buffer
+	text_len i32
+	pos      Pos
+}
+
 pub struct Pos {
 pub:
-	file   string
 	offset i32
 	line   i32
 	column i32
+}
+
+
+fn (raw RawToken) to_token() Token {
+	text := if raw.text_len > 0 { 
+		unsafe { tos(raw.text, int(raw.text_len)).clone() } 
+	} else { '' }
+	return Token{
+		kind: raw.kind
+		text: text
+		pos:  raw.pos
+	}
 }
 
 pub enum TokenKind {

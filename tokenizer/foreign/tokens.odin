@@ -1,10 +1,10 @@
 package main
 import "core:c"
 TOKEN_KIND :: enum c.int {
-	Invalid, 
+	Invalid,
 	EOF,
 	Comment,
-	
+
 	Literal_Start,
 		Identifier,
 		String,
@@ -13,7 +13,7 @@ TOKEN_KIND :: enum c.int {
 		// TODO: Hex? Pixel?
 		// maybe other value types css has
 	Literal_End,
-	
+
 	Operator_Start,
 		Maths_Start,
 			Add,
@@ -30,7 +30,7 @@ TOKEN_KIND :: enum c.int {
 		Ampersand,
 		Question,
 		Exclam,
-		
+
 		At,
 		Hash,
 		Open_Paren,			// (
@@ -42,7 +42,7 @@ TOKEN_KIND :: enum c.int {
 		Colon,					// :
 		Semicolon,			// ;
 		Period,					// .
-		Comma,			
+		Comma,
 		Quote,
 		Apostrophe,
 		Backtick,		// ,
@@ -61,7 +61,7 @@ TOKEN_KIND :: enum c.int {
 		Required,
 		Login,
 	Keyword_End,
-	
+
 	COUNT
 }
 
@@ -96,7 +96,7 @@ TOKENS := [TOKEN_KIND.COUNT]string{
 
 		"@",
 		"#",
-		
+
 		"(",
 		")",
 		"[",
@@ -128,29 +128,29 @@ TOKENS := [TOKEN_KIND.COUNT]string{
 }
 
 Token :: struct {
-	kind: TOKEN_KIND,
-	text: string,
-	pos: 	Pos
+	kind:     TOKEN_KIND,
+	text:     ^u8, // borrowed view into Tokenizer.source
+	text_len: c.int,
+	pos:      Pos,
 }
 
 Pos :: struct {
-	file:   string,
 	offset: c.int, // 0
 	line:   c.int, // 1
 	column: c.int, // 1
 }
 
 is_literal :: proc(kind: TOKEN_KIND) -> bool {
-	return .Literal_Start < kind && kind < .Literal_End 
+	return .Literal_Start < kind && kind < .Literal_End
 }
 
 is_operator :: proc(kind: TOKEN_KIND) -> bool {
-	return .Operator_Start < kind && kind < .Operator_End 
+	return .Operator_Start < kind && kind < .Operator_End
 }
 
 is_keyword :: proc(kind: TOKEN_KIND) -> bool {
-	
-	return .Keyword_Start < kind && kind < .Keyword_End 
+
+	return .Keyword_Start < kind && kind < .Keyword_End
 }
 
 get_kind :: proc(text: string) -> TOKEN_KIND {
@@ -158,7 +158,7 @@ get_kind :: proc(text: string) -> TOKEN_KIND {
 	for kind in TOKEN_KIND {
 		if TOKENS[kind] == text do return kind
 	}
-	
+
 	return .Invalid
 }
 
@@ -174,9 +174,8 @@ offset_to_pos :: proc(t: ^Tokenizer, offset: c.int) -> Pos {
 	column := t.offset - t.line_offset + 1
 
 	return Pos {
-		file = t.file,
-		column = column,
-		line = line,
-		offset = offset
+		column = c.int(column),
+		line =   c.int(line),
+		offset = c.int(offset)
 	}
 }

@@ -13,7 +13,7 @@ import "core:c"
 Tokenizer :: struct {
 	file: string,
 	source: string,
-	
+
 	// we could get away with using a pointer to ensure no weird leaks
 	// however trying to print this would result in some issues
 	// tokens: [dynamic]Token,
@@ -53,12 +53,12 @@ advance_rune :: proc(t: ^Tokenizer) {
 		}
 
 		r, width := rune(t.source[t.read_offset]), 1
-		
+
 		t.read_offset += c.int(width)
 		t.current = r
 	} else {
 		t.offset = c.int(len(t.source))
-		
+
 		if t.current == '\n' {
 			// the current line is this far into the string
 			t.line_offset = t.offset
@@ -170,7 +170,7 @@ lookahead :: proc "c" (t: ^Tokenizer, amount: c.int) -> (peeked: Token) {
 next_token :: proc "c" (t: ^Tokenizer) -> Token{
 	context = runtime.default_context()
 	skip_whitespace(t)
-	
+
 	offset := t.offset
 	kind: TOKEN_KIND
 	text: string
@@ -184,7 +184,7 @@ next_token :: proc "c" (t: ^Tokenizer) -> Token{
 			keywd_kind := get_keyword(text)
 			if keywd_kind != nil {
 				kind = keywd_kind.(TOKEN_KIND)
-			} 
+			}
 
 		case:
 			advance_rune(t)
@@ -217,14 +217,19 @@ next_token :: proc "c" (t: ^Tokenizer) -> Token{
 				case '"': kind = .Quote
 				case '\'': kind = .Apostrophe
 				case '`': kind = .Backtick
-					
+
 			}
 	}
 
 	if text == "" {
 		text = string(t.source[offset : t.offset])
 	}
-	token := Token{kind, text, pos}
+	token := Token{
+		kind = kind,
+		text = raw_data(text),
+		text_len = c.int(len(text)),
+		pos = pos,
+	}
 	// append(&t.tokens, token)
 
 	return token
@@ -235,7 +240,7 @@ new_tokenizer :: proc "c" (source: cstring) -> ^Tokenizer {
 	context = runtime.default_context()
 	tok := new(Tokenizer)
 	str, err := strings.clone_from_cstring(source)
-	
+
 	if err != nil {
 		fmt.eprintln(err)
 		return nil

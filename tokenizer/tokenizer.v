@@ -4,20 +4,12 @@ module tokenizer
 
 fn C.new_tokenizer(data &char) &Tokenizer
 fn C.free_tokenizer(t &Tokenizer)
-fn C.next_token(t &Tokenizer) Token
-fn C.peek(t &Tokenizer) Token
-fn C.lookahead(T &Tokenizer, amount i32) Token
+fn C.next_token(t &Tokenizer) RawToken
+fn C.peek(t &Tokenizer) RawToken
+fn C.lookahead(t &Tokenizer, amount i32) RawToken
 
 pub struct Tokenizer {
-	file   string
-	source string
-
-mut:
-	line_offset i32
-	line_count  i32
-	read_offset i32
-	offset      i32
-	current     char
+	handle voidptr
 }
 
 pub fn Tokenizer.new(data string) &Tokenizer {
@@ -25,7 +17,7 @@ pub fn Tokenizer.new(data string) &Tokenizer {
 }
 
 pub fn (tok &Tokenizer) next() Token {
-	return C.next_token(tok)
+	return C.next_token(tok).to_token()
 }
 
 pub fn (tok &Tokenizer) destroy() {
@@ -33,11 +25,11 @@ pub fn (tok &Tokenizer) destroy() {
 }
 
 pub fn (tok &Tokenizer) peek() Token {
-	return C.peek(tok)
+	return C.peek(tok).to_token()
 }
 
 pub fn (tok &Tokenizer) lookahead(amount int) Token {
-	return C.lookahead(tok, amount)
+	return C.lookahead(tok, i32(amount)).to_token()
 }
 
 // fn (mut tok Tokenizer) next_token() {
