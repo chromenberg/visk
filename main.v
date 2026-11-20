@@ -2,17 +2,16 @@ module main
 
 import os
 import tokenizer { Tokenizer }
+import parser
 
 fn main() {
 	data := os.read_file('bot.visk')!
 	mut tok := Tokenizer.new(data)
 	defer { tok.destroy() }
-	for {
-		token := tok.next()
-		println('${token.kind}')
+	mut par := parser.Parser{source: tok}
+	
+	par.step()
+	par.step()
 
-		if token.kind == .eof {
-			break
-		}
-	}
+	// os.write_file('./bot.visk.tokens', dat.str())!
 }
